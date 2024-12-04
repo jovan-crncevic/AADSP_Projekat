@@ -4,4 +4,8 @@
     <LocalDebuggerCommandArguments>C:\usr\xtensa\workspace\work_RA129_2021\TestStreams\Abusey_Junction.wav C:\usr\xtensa\workspace\work_RA129_2021\OutputStreams\projekat_out.wav 0 -12 2</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LocalDebuggerCommandArguments>E:\Documents\AADSP\TestStreams\Abusey_Junction.wav E:\Documents\AADSP\OutputStreams\test_output.wav 1 12 1</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

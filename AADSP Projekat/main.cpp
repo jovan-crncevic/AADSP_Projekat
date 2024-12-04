@@ -8,7 +8,7 @@
 #define BLOCK_SIZE 16
 #define MAX_NUM_CHANNEL 8
 
-double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
+double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE] = { 0 };
 
 int main(int argc, char* argv[])
 {
@@ -40,7 +40,20 @@ int main(int argc, char* argv[])
 	// Set up output WAV header
 	//-------------------------------------------------
 	memcpy(&outputWavHeader, &inputWavHeader, sizeof(WavHeader));
-	outputWavHeader.fmt.numChannels = inputWavHeader.fmt.numChannels;
+	outputWavHeader.fmt.numChannels = 0;
+
+	uint8_t mask = 0b00111111;
+	int i = 0;
+	while (i++ < MAX_NUM_CHANNEL)
+	{
+		if (mask & 1)
+		{
+			outputWavHeader.fmt.numChannels += 1;
+			std::cout << "Usao i povecao" << std::endl;
+		}
+		mask = mask >> 1;
+		std::cout << i << std::endl;
+	}
 
 	int32_t oneChannelSubChunk2Size = inputWavHeader.data.subChunk2Size / inputWavHeader.fmt.numChannels;
 	int32_t oneChannelByteRate = inputWavHeader.fmt.byteRate / inputWavHeader.fmt.numChannels;
@@ -92,7 +105,7 @@ int main(int argc, char* argv[])
 			}
 
 			//processing();
-			CustomModule_Main(argumentsTable, sampleBuffer, outputBuffer);
+			CustomModule_Main(argumentsTable);
 
 			for (int32_t j = 0; j < blockSize; j++)
 			{

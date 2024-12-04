@@ -28,6 +28,6 @@ typedef struct {
 } CustomModule_ArgumentsTable;
 
 void CustomModule_InitializeArgumentsTable(CustomModule_ArgumentsTable*, int, double, int);
-void CustomModule_Main(CustomModule_ArgumentsTable, double [][], double [][]);
+void CustomModule_Main(CustomModule_ArgumentsTable);
 
 #endif

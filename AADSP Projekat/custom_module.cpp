@@ -13,10 +13,10 @@ void CustomModule_InputGain()
 
 }
 
-void CustomModule_Main(CustomModule_ArgumentsTable argumentsTable, double sampleBuffer[][], double outputBuffer[][])
+void CustomModule_Main(CustomModule_ArgumentsTable argumentsTable)
 {
 	if (argumentsTable.module_enabled)
 	{
-		CustomModule_InputGain()
+		CustomModule_InputGain();
 	}
 }
