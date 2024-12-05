@@ -5,7 +5,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>E:\Documents\AADSP\TestStreams\Tone_L1k_R3k.wav E:\Documents\AADSP\OutputStreams\test_output.wav 1 -6 0</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>E:\Documents\AADSP\TestStreams\Abusey_Junction.wav E:\Documents\AADSP\OutputStreams\test_output.wav 1 -6 3</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

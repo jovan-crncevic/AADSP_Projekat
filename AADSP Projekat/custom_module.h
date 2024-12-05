@@ -4,6 +4,7 @@
 #define BLOCK_SIZE 16
 #define MAX_NUM_CHANNEL 8
 #define FIR_N_COEFF 128
+#define DISTORSION_TRESHOLD 0.1
 
 //////////////////////////////
 //	module_enabled:			//

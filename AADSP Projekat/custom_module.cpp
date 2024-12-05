@@ -163,7 +163,21 @@ static void CustomModule_FIR(const double tempBuffer[BLOCK_SIZE], double sampleB
 
 static void CustomModule_Distorsion(const double tempBuffer[BLOCK_SIZE], double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE])
 {
-
+    for (int i = 0; i < BLOCK_SIZE; i++)
+    {
+        if (tempBuffer[i] > DISTORSION_TRESHOLD)
+        {
+            sampleBuffer[5][i] = DISTORSION_TRESHOLD;
+        }
+        else if (tempBuffer[i] < -1 * DISTORSION_TRESHOLD)
+        {
+            sampleBuffer[5][i] = -1 * DISTORSION_TRESHOLD;
+        }
+        else
+        {
+            sampleBuffer[5][i] = tempBuffer[i];
+        }
+    }
 }
 
 static void CustomModule_L_R(const double input_gain, double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE])
@@ -191,11 +205,10 @@ static void CustomModule_C_LFE(double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE])
 	for (int i = 0; i < BLOCK_SIZE; i++)
 	{
 		tempBuffer[i] = sampleBuffer[0][i] + sampleBuffer[1][i];
-        sampleBuffer[5][i] = tempBuffer[i];
 	}
 
 	CustomModule_FIR(tempBuffer, sampleBuffer);
-	//CustomModule_Distorsion(tempBuffer, sampleBuffer);
+	CustomModule_Distorsion(tempBuffer, sampleBuffer);
 }
 
 void CustomModule_Main(CustomModule_ArgumentsTable argumentsTable, double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE])
