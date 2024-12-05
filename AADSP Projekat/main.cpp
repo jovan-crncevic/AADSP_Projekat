@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
 					}
 
 					i++;
-					maskTemp = maskTemp >> 1;
+					maskTemp >>= 1;
 				}
 			}
 
