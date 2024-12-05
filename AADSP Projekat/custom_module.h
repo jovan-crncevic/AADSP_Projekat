@@ -1,7 +1,9 @@
 #ifndef __CUSTOM_MODULE_H__
 #define __CUSTOM_MODULE_H__
 
-#include <stdint.h>
+#define BLOCK_SIZE 16
+#define MAX_NUM_CHANNEL 8
+#define FIR_N_COEFF 128
 
 //////////////////////////////
 //	module_enabled:			//
@@ -28,6 +30,6 @@ typedef struct {
 } CustomModule_ArgumentsTable;
 
 void CustomModule_InitializeArgumentsTable(CustomModule_ArgumentsTable*, int, double, int);
-void CustomModule_Main(CustomModule_ArgumentsTable);
+void CustomModule_Main(CustomModule_ArgumentsTable, double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE]);
 
 #endif

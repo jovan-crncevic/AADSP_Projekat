@@ -8,7 +8,7 @@
 #define BLOCK_SIZE 16
 #define MAX_NUM_CHANNEL 8
 
-double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE] = { 0 };
+double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 
 int main(int argc, char* argv[])
 {
@@ -18,6 +18,22 @@ int main(int argc, char* argv[])
 	char wavOutputName[256];
 	WavHeader inputWavHeader;
 	WavHeader outputWavHeader;
+
+	uint8_t mask_list[4] = {
+		0b00011011,
+		0b00111011,
+		0b00011111,
+		0b00111111
+	};
+
+	uint16_t numChannels_list[4] = {
+		4,
+		5,
+		5,
+		6
+	};
+
+	uint8_t mask = mask_list[atoi(argv[5])];
 
 	// Init channel buffers
 	//-------------------------------------------------
@@ -40,20 +56,7 @@ int main(int argc, char* argv[])
 	// Set up output WAV header
 	//-------------------------------------------------
 	memcpy(&outputWavHeader, &inputWavHeader, sizeof(WavHeader));
-	outputWavHeader.fmt.numChannels = 0;
-
-	uint8_t mask = 0b00111111;
-	int i = 0;
-	while (i++ < MAX_NUM_CHANNEL)
-	{
-		if (mask & 1)
-		{
-			outputWavHeader.fmt.numChannels += 1;
-			std::cout << "Usao i povecao" << std::endl;
-		}
-		mask = mask >> 1;
-		std::cout << i << std::endl;
-	}
+	outputWavHeader.fmt.numChannels = numChannels_list[atoi(argv[5])];
 
 	int32_t oneChannelSubChunk2Size = inputWavHeader.data.subChunk2Size / inputWavHeader.fmt.numChannels;
 	int32_t oneChannelByteRate = inputWavHeader.fmt.byteRate / inputWavHeader.fmt.numChannels;
@@ -73,8 +76,6 @@ int main(int argc, char* argv[])
 	CustomModule_InitializeArgumentsTable(&argumentsTable, atoi(argv[3]), atof(argv[4]), atoi(argv[5]));
 
 	std::cout << argumentsTable.module_enabled << " " << argumentsTable.input_gain << " " << argumentsTable.output_mode << std::endl;
-
-	double outputBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 
 	// Processing loop
 	//-------------------------------------------------
@@ -105,7 +106,29 @@ int main(int argc, char* argv[])
 			}
 
 			//processing();
-			CustomModule_Main(argumentsTable);
+			CustomModule_Main(argumentsTable, sampleBuffer);
+
+			//mask
+			{
+				uint8_t maskTemp = mask;
+				int8_t i = 0;
+				int8_t j = 0;
+				while (i < MAX_NUM_CHANNEL)
+				{
+					if (maskTemp & 1)
+					{
+						for (int8_t k = 0; k < BLOCK_SIZE; k++)
+						{
+							sampleBuffer[j][k] = sampleBuffer[i][k];
+						}
+
+						j++;
+					}
+
+					i++;
+					maskTemp = maskTemp >> 1;
+				}
+			}
 
 			for (int32_t j = 0; j < blockSize; j++)
 			{
